@@ -1,0 +1,46 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.logprocessor'
+version = '1.0.0-SNAPSHOT'
+
+description = """rxjava-logprocessor"""
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.5.RELEASE")
+    }
+}
+
+repositories {
+        
+     maven { url "http://repo.maven.apache.org/maven2" }
+}
+
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version:'2.1.0.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version:'2.1.0.RELEASE'
+    compile group: 'io.reactivex.rxjava2', name: 'rxjava', version:'2.2.3'
+    compile group: 'org.hibernate.validator', name: 'hibernate-validator', version:'6.0.13.Final'
+    compile group: 'org.hibernate.validator', name: 'hibernate-validator-annotation-processor', version:'6.0.13.Final'
+    compile group: 'org.springframework', name: 'spring-aop', version:'5.1.2.RELEASE'
+    compile group: 'org.aspectj', name: 'aspectjweaver', version:'1.9.2'
+    compile group: 'org.hsqldb', name: 'hsqldb', version:'2.4.1'
+    compile group: 'org.projectlombok', name: 'lombok', version:'1.18.4'
+    compile group: 'javax.el', name: 'javax.el-api', version:'3.0.1-b06'
+    compile group: 'org.glassfish.web', name: 'javax.el', version:'2.2.6'
+    testCompile group: 'junit', name: 'junit', version:'4.12'
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'2.1.0.RELEASE'
+}
