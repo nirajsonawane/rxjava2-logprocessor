@@ -23,7 +23,7 @@ public class LogMessage {
 	private String type;
 	private String host;
 	@NotNull
-	private String timestamp;
+	private Long timestamp;
 	private Long lineNumber;
 
 }

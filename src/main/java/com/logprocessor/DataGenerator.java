@@ -29,7 +29,7 @@ public class DataGenerator {
 						.host("host" + i)
 						.state("STARTED")
 						.type("Type" + i)
-						.timestamp(String.valueOf(epochSecond))
+						//.timestamp(String.valueOf(epochSecond))
 						.build();											
 				
 				bufferedWriter.write(mapper.writeValueAsString(message));
@@ -39,7 +39,7 @@ public class DataGenerator {
 						.host("host" + i)
 						.state("FINISHED")
 						.type("Type" + i)
-						.timestamp(String.valueOf(epochSecond+5))
+						//.timestamp(String.valueOf(epochSecond+5))
 						.build();											
 				
 				bufferedWriter.write(mapper.writeValueAsString(message));

@@ -12,7 +12,7 @@ public class RxjavaLogprocessorApplication {
 		ConfigurableApplicationContext run = SpringApplication.run(RxjavaLogprocessorApplication.class, args);
 		String path ="D:\\Niraj\\Programming\\logFile.txt";
 		LogFileProcessor logFileProcessor = run.getBean(LogFileProcessor.class);
-		logFileProcessor.processLogFile(path);
-
+		logFileProcessor.processLogFile("D:\\Niraj\\Programming\\rxjava2-logprocessor\\src\\main\\resources\\logData.txt");
+		//logFileProcessor.processLogFile(path);
 	}
 }

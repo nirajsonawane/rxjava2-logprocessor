@@ -13,8 +13,9 @@ public class LongRunningMessageReport  {
 	
 	private String id;
 	private String eventType;
-	private String eventDuration;
+	private Long eventDuration;
 	private String host;
-	private String alert;
+	private Boolean alert;
+	private Boolean isValid =true;
 
 }
