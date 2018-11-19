@@ -8,13 +8,10 @@ import javax.validation.Validator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.FactoryBeanNotInitializedException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.logprocessor.model.LogMessage;
-import com.logprocessor.model.LongRunningMessageReport;
 
 import io.reactivex.exceptions.Exceptions;
 
@@ -64,7 +61,7 @@ public class Util {
 		return diff> threshold;
 		
 	}
-	public static LongRunningMessageReport updateDuration(LogMessage message) {
+	public static LogMessage updateDuration(LogMessage message) {
 
 		try {
 			if (previousElements.containsKey(message.getId())) {
@@ -72,17 +69,17 @@ public class Util {
 				previousElements.remove(message.getId());
 				Long diff = Math.abs(Math.abs(oldMessage.getTimestamp() - message.getTimestamp()));
 
-				return LongRunningMessageReport.builder()
+				return LogMessage.builder()
 						.eventDuration(diff)
 						.alert(isLongRunning(diff))
-						.eventType(oldMessage.getType())
+						.type(oldMessage.getType())
 						.host(oldMessage.getHost())
 						.id(message.getId())
 						.isValid(true)
 						.build();
 			} else {
 				previousElements.put(message.getId(), message);
-				return LongRunningMessageReport.builder()
+				return LogMessage.builder()
 						.isValid(false)
 						.build();
 			}

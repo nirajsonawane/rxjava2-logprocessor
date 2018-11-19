@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.logprocessor.model.LogMessage;
-import com.logprocessor.model.LongRunningMessageReport;
 import com.logprocessor.service.DaoService;
 
 import io.reactivex.Observable;
@@ -28,12 +27,12 @@ public class LogFileProcessor {
 
 	public void processLogFile(String filePath) {
 
-		final Observable<List<LongRunningMessageReport>> observable = Observable
+		final Observable<List<LogMessage>> observable = Observable
 				.defer(() -> new LogFileObservableSource(filePath))
 				.map(Util::convertStringToLogMessage)
 				.filter(Util::isValidatMessage)
 				.map(Util::updateDuration)
-				.filter(LongRunningMessageReport::getIsValid)
+				.filter(LogMessage::getIsValid)
 				.buffer(chunkSize);
 	
 

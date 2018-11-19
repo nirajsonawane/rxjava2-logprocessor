@@ -19,11 +19,12 @@ public class LogMessage {
 	@NotBlank
 	private String id;
 	@NotBlank
-	private String state;
-	private String type;
-	private String host;
+	private String state;	
+	private String type;	
+	private String host;	
 	@NotNull
 	private Long timestamp;
-	private Long lineNumber;
-
+	private Long eventDuration;	
+	private Boolean alert;
+	private Boolean isValid =true;
 }

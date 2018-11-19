@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import com.logprocessor.model.LongRunningMessageReport;
+import com.logprocessor.model.LogMessage;
 
 @Component
 public class DaoServiceImpl implements DaoService {
@@ -25,16 +25,16 @@ public class DaoServiceImpl implements DaoService {
 	private String insertReportTableSql;
 	
 	@Override
-	public void insertBatch(List<LongRunningMessageReport> batchMessage) {
+	public void insertBatch(List<LogMessage> batchMessage) {
 		log.info("Inserting data Batch Size {} ", batchMessage.size());	
 		try {
 			 
 			jdbcTemplate.batchUpdate(insertReportTableSql, new BatchPreparedStatementSetter() {				
 				@Override
 				public void setValues(PreparedStatement ps, int i) throws SQLException {
-					LongRunningMessageReport message = batchMessage.get(i);
+					LogMessage message = batchMessage.get(i);
 					ps.setString(1, message.getId());
-					ps.setString(2, message.getEventType());
+					ps.setString(2, message.getType());
 					ps.setString(3, message.getHost());
 					ps.setLong(4, message.getEventDuration());
 					ps.setBoolean(5, message.getAlert());
