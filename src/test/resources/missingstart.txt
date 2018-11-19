@@ -1,0 +1,2 @@
+{"id":"xde", "state":"FINISHED", "type":"APPLICATION_LOG",
+	"host":"12345", "timestamp":1491377495217 }

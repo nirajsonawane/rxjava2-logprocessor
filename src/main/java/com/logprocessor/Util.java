@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.logprocessor.model.LogMessage;
 
 import io.reactivex.exceptions.Exceptions;
+import lombok.Cleanup;
 
 @Component
 public class Util {
@@ -63,6 +64,9 @@ public class Util {
 	}
 	public static LogMessage updateDuration(LogMessage message) {
 
+		
+		
+		log.info(message.toString());
 		try {
 			if (previousElements.containsKey(message.getId())) {
 				LogMessage oldMessage = previousElements.get(message.getId());
@@ -89,6 +93,10 @@ public class Util {
 			throw Exceptions.propagate(e);
 		}
 
+	}
+	public static void cleanupMap()
+	{
+		previousElements.clear();
 	}
 
 }

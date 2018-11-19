@@ -25,7 +25,7 @@ public class LogFileProcessor {
 	private int chunkSize;
 
 
-	public void processLogFile(String filePath) {
+	public void processFile(String filePath) {
 
 		final Observable<List<LogMessage>> observable = Observable
 				.defer(() -> new LogFileObservableSource(filePath))
@@ -34,15 +34,15 @@ public class LogFileProcessor {
 				.map(Util::updateDuration)
 				.filter(LogMessage::getIsValid)
 				.buffer(chunkSize);
-	
+	 
 
 		//@Todo subscribeOn is not working, Need to work on this.
 		observable//.subscribeOn(Schedulers.newThread())
 				   .subscribe(
-						  // messageData -> System.out.println(messageData.size()),
+						 
 						   messageData -> daoService.insertBatch(messageData),
 						   Throwable::printStackTrace,
-						   () -> log.info("File Processing Complited")
+						   () -> log.info("File Processing Completed")
 						  );
 
 	}

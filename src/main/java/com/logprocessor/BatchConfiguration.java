@@ -16,7 +16,7 @@ public class BatchConfiguration {
 
 	
 
-	@PostConstruct
+	//@PostConstruct
 	public void getDbManager() {
 		System.setProperty("java.awt.headless", "false");
 		DatabaseManagerSwing.main(
