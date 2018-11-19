@@ -24,9 +24,7 @@ public class LogFileObservableSource implements ObservableSource<String> {
 
 			List<String> strings = new ArrayList<>();			
 			
-			lines.forEach(inputLine ->{
-					sendDataToObserver(observer, strings, inputLine);
-				});
+			lines.forEach(inputLine ->sendDataToObserver(observer, strings, inputLine));
 			observer.onComplete();
 		} catch (IOException e) {
 			observer.onError(e);

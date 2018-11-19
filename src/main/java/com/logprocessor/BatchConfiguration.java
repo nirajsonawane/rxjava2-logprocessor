@@ -4,8 +4,6 @@ import javax.annotation.PostConstruct;
 
 import org.aspectj.lang.annotation.Pointcut;
 import org.hsqldb.util.DatabaseManagerSwing;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.interceptor.PerformanceMonitorInterceptor;
@@ -16,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class BatchConfiguration {
 
-	private static final Logger log = LoggerFactory.getLogger(BatchConfiguration.class);
+	
 
 	@PostConstruct
 	public void getDbManager() {
