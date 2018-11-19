@@ -1,4 +1,4 @@
-package com.logprocessor.rxjavalogprocessor.model;
+package com.logprocessor.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

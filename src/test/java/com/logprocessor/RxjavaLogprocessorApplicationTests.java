@@ -1,4 +1,4 @@
-package com.logprocessor.rxjavalogprocessor;
+package com.logprocessor;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

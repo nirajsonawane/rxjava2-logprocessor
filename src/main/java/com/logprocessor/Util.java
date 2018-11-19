@@ -1,45 +1,47 @@
-package com.logprocessor.rxjavalogprocessor;
+package com.logprocessor;
 
 import java.io.IOException;
 
+import javax.validation.Validation;
 import javax.validation.Validator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.logprocessor.rxjavalogprocessor.model.LogMessage;
+import com.logprocessor.model.LogMessage;
 
 import io.reactivex.exceptions.Exceptions;
 
 @Component
 public class Util {
-
 	private static final Logger log = LoggerFactory.getLogger(LogFileProcessor.class);
-	@Autowired
-	private Validator validator;
+	private static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
-	public Boolean isValidatMessage(LogMessage message) {
-		return validator.validate(message).isEmpty();
+	private Util()
+	{}
+
+
+	public static Boolean isValidatMessage(LogMessage message) {
+		return validator.validate(message)
+				.isEmpty();
 	}
-	
-	public Boolean isValidJson(String json)
-	{
+
+	public static Boolean isValidJson(String json) {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			mapper.readTree(json);			
+			mapper.readTree(json);
 		} catch (IOException e) {
 			return false;
 		}
 		return true;
-	}	
-	
-	public LogMessage convertStringToLogMessage(String str) {
+	}
+
+	public static LogMessage convertStringToLogMessage(String str) {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			return mapper.readValue(str, LogMessage.class);			
+			return mapper.readValue(str, LogMessage.class);
 		} catch (IOException e) {
 			log.error("Error while Converting data ");
 			throw Exceptions.propagate(e);

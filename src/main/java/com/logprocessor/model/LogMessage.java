@@ -1,4 +1,4 @@
-package com.logprocessor.rxjavalogprocessor.model;
+package com.logprocessor.model;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

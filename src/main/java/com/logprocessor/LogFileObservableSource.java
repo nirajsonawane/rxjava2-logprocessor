@@ -1,4 +1,4 @@
-package com.logprocessor.rxjavalogprocessor;
+package com.logprocessor;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,9 +20,9 @@ public class LogFileObservableSource implements ObservableSource<String> {
 	@Override
 	public void subscribe(Observer<? super String> observer) {
 		try {
-			String temp = "";
+			
 			List<String> strings = new ArrayList<>();
-
+		
 			Files.lines(Paths.get(filename))
 					.forEach((str) ->
 						{
