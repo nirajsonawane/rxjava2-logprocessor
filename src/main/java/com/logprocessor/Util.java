@@ -48,7 +48,7 @@ public class Util {
 		return true;
 	}
 
-	public static LogMessage convertStringToLogMessage(String str) {
+	public static LogMessage logMessageMapper(String str) {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			return mapper.readValue(str, LogMessage.class);
@@ -62,11 +62,9 @@ public class Util {
 		return diff> threshold;
 		
 	}
-	public static LogMessage updateDuration(LogMessage message) {
-
+	public static LogMessage durationMapper(LogMessage message) {	
 		
 		
-		log.info(message.toString());
 		try {
 			if (previousElements.containsKey(message.getId())) {
 				LogMessage oldMessage = previousElements.get(message.getId());

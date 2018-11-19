@@ -13,7 +13,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.logprocessor.model.LogMessage;
-
+/**
+ * 
+ * @author Niraj Sonawane
+ * Service class for Database related work
+ *
+ */
 @Component
 public class DaoServiceImpl implements DaoService {
 	private static final Logger log = LoggerFactory.getLogger(DaoServiceImpl.class);

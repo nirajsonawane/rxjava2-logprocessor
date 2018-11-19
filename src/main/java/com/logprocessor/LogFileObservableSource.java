@@ -9,7 +9,12 @@ import java.util.stream.Stream;
 
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
-
+/**
+ * 
+ * @author Niraj Sonawane
+ *
+ * This class is responsible for reading file and Emitting data.  
+ */
 public class LogFileObservableSource implements ObservableSource<String> {
 
 	private final String filename;
@@ -20,11 +25,11 @@ public class LogFileObservableSource implements ObservableSource<String> {
 
 	@Override
 	public void subscribe(Observer<? super String> observer) {
-		try (Stream<String> lines = Files.lines(Paths.get(filename))) {
+		try {
 
 			List<String> strings = new ArrayList<>();			
 			
-			lines.forEach(inputLine ->sendDataToObserver(observer, strings, inputLine));
+			Files.lines(Paths.get(filename)).forEach(inputLine ->sendDataToObserver(observer, strings, inputLine));
 			observer.onComplete();
 		} catch (IOException e) {
 			observer.onError(e);

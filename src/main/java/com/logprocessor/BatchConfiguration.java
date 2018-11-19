@@ -11,6 +11,12 @@ import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * 
+ * @author Niraj Sonawane
+ *
+ *Configuration class for configuring beans. Uncomment @PostConstruct to view Data 
+ */
 @Configuration
 public class BatchConfiguration {
 

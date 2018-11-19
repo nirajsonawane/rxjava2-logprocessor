@@ -20,7 +20,7 @@ public class DataGenerator {
 
 			Instant instant = Instant.now();
 			long timestamp = instant.toEpochMilli();
-			for (int i = 0; i < 100000; i++) {
+			for (int i = 0; i < 10000000; i++) {
 				
 				long epochSecond = instant.getEpochSecond();
 				epochSecond =epochSecond+1;
@@ -29,7 +29,7 @@ public class DataGenerator {
 						.host("host" + i)
 						.state("STARTED")
 						.type("Type" + i)
-						//.timestamp(String.valueOf(epochSecond))
+						.timestamp(epochSecond)
 						.build();											
 				
 				bufferedWriter.write(mapper.writeValueAsString(message));
@@ -39,7 +39,7 @@ public class DataGenerator {
 						.host("host" + i)
 						.state("FINISHED")
 						.type("Type" + i)
-						//.timestamp(String.valueOf(epochSecond+5))
+						.timestamp(epochSecond+5)
 						.build();											
 				
 				bufferedWriter.write(mapper.writeValueAsString(message));
