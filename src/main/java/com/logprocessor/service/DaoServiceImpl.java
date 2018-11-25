@@ -3,6 +3,7 @@ package com.logprocessor.service;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.logprocessor.model.LogMessage;
@@ -30,8 +32,9 @@ public class DaoServiceImpl implements DaoService {
 	private String insertReportTableSql;
 	
 	@Override
-	public void insertBatch(List<LogMessage> batchMessage) {
-		log.info("Inserting data Batch Size {} ", batchMessage.size());	
+	@Async
+	public CompletableFuture<Boolean> insertBatch(List<LogMessage> batchMessage) {
+		log.info("Inserting data Batch Size {} ", batchMessage.size());
 		try {
 			 
 			jdbcTemplate.batchUpdate(insertReportTableSql, new BatchPreparedStatementSetter() {				
@@ -49,8 +52,16 @@ public class DaoServiceImpl implements DaoService {
 					return batchMessage.size();
 				}
 			});
+			 return CompletableFuture.completedFuture(true);
 		} catch (Exception e) {
 			log.error("Error While Inserting ",e);
+			return CompletableFuture.completedFuture(false);
 		}
+	}
+
+	@Override
+	public Integer getTotalRowCount() {
+		return jdbcTemplate.queryForObject("SELECT count(*) FROM LONG_RUNING_MESSAGE", Integer.class);
+		
 	}
 }

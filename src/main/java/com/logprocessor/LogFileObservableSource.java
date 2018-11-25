@@ -5,7 +5,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
@@ -17,6 +19,7 @@ import io.reactivex.Observer;
  */
 public class LogFileObservableSource implements ObservableSource<String> {
 
+	private static final Logger log = LoggerFactory.getLogger(LogFileObservableSource.class);
 	private final String filename;
 
 	LogFileObservableSource(String filename) {
@@ -27,8 +30,7 @@ public class LogFileObservableSource implements ObservableSource<String> {
 	public void subscribe(Observer<? super String> observer) {
 		try {
 
-			List<String> strings = new ArrayList<>();			
-			
+			List<String> strings = new ArrayList<>();						
 			Files.lines(Paths.get(filename)).forEach(inputLine ->sendDataToObserver(observer, strings, inputLine));
 			observer.onComplete();
 		} catch (IOException e) {
@@ -37,6 +39,7 @@ public class LogFileObservableSource implements ObservableSource<String> {
 	}
 
 	private void sendDataToObserver(Observer<? super String> observer, List<String> strings, String inputLine) {
+	    log.debug("Sending data {}",inputLine);
 		if (isLineContainsCompleteObject(inputLine))
 			observer.onNext(inputLine);
 		else {

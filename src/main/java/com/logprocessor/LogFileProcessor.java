@@ -1,11 +1,14 @@
 package com.logprocessor;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 import com.logprocessor.model.LogMessage;
@@ -40,25 +43,32 @@ public class LogFileProcessor {
 	
 	@Value("${message.chunk.size}")
 	private int chunkSize;
-
-
+	@Autowired
+	private ThreadPoolTaskExecutor executor;
+	
+	List<CompletableFuture<Boolean>>  completableFuturelist = new LinkedList<>();
+	
 	public void processFile(String filePath) {
-
 		final Observable<List<LogMessage>> observable = Observable
-				.defer(() -> new LogFileObservableSource(filePath))
+				.defer(() -> new LogFileObservableSource(filePath))				
 				.map(Util::logMessageMapper)
 				.filter(Util::isValidatMessage)
 				.map(Util::durationMapper)
 				.filter(LogMessage::getIsValid)
 				.buffer(chunkSize);
-	 
-
-		//@Todo subscribeOn(Schedulers.newThread()) is not working, Need to work on this. This will improve performance further.
+				
+		//@Todo subscribeOn(Schedulers.newThread()) Update Getting better performance using database asyn call instead of subscribeOn 
 		observable.subscribe(
-						  //messageData -> System.out.println(messageData.size()),
-						   messageData -> daoService.insertBatch(messageData),
-						   Throwable::printStackTrace,
-						   () -> log.info("File Processing Completed")
+						    messageData -> completableFuturelist.add(daoService.insertBatch(messageData)),						    
+						    Throwable::printStackTrace,						   
+						    () ->{	
+							      log.info("File Processing Completed");
+							      log.info("Waiting for all database insert threads to complete  ");
+							      //For Simplicity, I am checking if all CompletableFuture are complete or not in single call. But this can be improve.     
+							      CompletableFuture.allOf(completableFuturelist.toArray(new CompletableFuture[completableFuturelist.size()])).join();
+							      log.info("Total Message Count {} ", daoService.getTotalRowCount());
+							      executor.shutdown();
+						   }
 						  );
 
 	}

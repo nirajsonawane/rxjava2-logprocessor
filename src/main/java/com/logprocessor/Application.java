@@ -9,8 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
+@EnableAsync
 public class Application {
 
 	private static final Logger log = LoggerFactory.getLogger(LogFileProcessor.class);
@@ -20,10 +22,10 @@ public class Application {
 		validateInput(args);
 		ConfigurableApplicationContext run = SpringApplication.run(Application.class, args);		
 		LogFileProcessor logFileProcessor = run.getBean(LogFileProcessor.class);
-		Instant start = Instant.now();		
-		logFileProcessor.processFile(args[0]);
+		Instant start = Instant.now();	
+		logFileProcessor.processFile(args[0]);		
 		
-		Instant end = Instant.now();
+		Instant end = Instant.now();		
 		
 		log.info("Time Taken to Process File {} Minutes",java.time.Duration.between(end, start).toMinutes());
 	}
