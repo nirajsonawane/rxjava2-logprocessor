@@ -20,7 +20,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.5.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.0.RELEASE")
     }
 }
 
@@ -30,9 +30,10 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version:'2.1.0.RELEASE'
+  
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version:'2.1.0.RELEASE'
     compile group: 'io.reactivex.rxjava2', name: 'rxjava', version:'2.2.3'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.9.7'
     compile group: 'org.hibernate.validator', name: 'hibernate-validator', version:'6.0.13.Final'
     compile group: 'org.hibernate.validator', name: 'hibernate-validator-annotation-processor', version:'6.0.13.Final'
     compile group: 'org.springframework', name: 'spring-aop', version:'5.1.2.RELEASE'
