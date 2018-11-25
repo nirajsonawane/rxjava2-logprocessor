@@ -70,11 +70,23 @@ observable.subscribe(
    () -> log.info("File Processing Completed")         //hadel End of batch 
 	  );
 ```
+**Update** 
+```
+observable.subscribe(
+     messageData -> completableFuturelist.add(daoService.insertBatch(messageData)),//insert chunk and store refrance of ompletableFutur	      Throwable::printStackTrace,						  
+     () ->{	
+	     log.info("Waiting for all database insert threads to complete  ");
+	     CompletableFuture.allOf(completableFuturelist.toArray(new CompletableFuture[completableFuturelist.size()])).join();
+	     log.info("Total Message Count {} ", daoService.getTotalRowCount());
+	     executor.shutdown();
+	   }
+     );
+```
 
 **Assumptions** Log File will not have log messages spanning more 2 lines.  
 
 **TODO**
-1 Improve subscriber using `subscribeOn(..)`
+1 Improve subscriber using `subscribeOn(..)` - **Update** Insted of using `subscribeOn` used Spring `@Async` Method called. Updated insertBatch method to return `CompletableFuture`. Time Spend 30 mins     
 
 
 Approximate Time Spend: Around 3.5 to 4 hours
